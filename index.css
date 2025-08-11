@@ -23,8 +23,10 @@ html {
   --color-text-light: hsl(from var(--base-color) h s 15);
   --color-text-dark: hsl(from var(--base-color) h s 5);
   --color-primary-dark: hsl(from var(--base-color) h s calc(l - 20));
-  --color-primary-light: hsl(from var(--base-color) h s calc(l + 20));
+  --color-primary-light: hsl(from var(--base-color) h s calc(l + 30));
   --color-accent: hsl(from var(--base-color) calc(h + 220) s l);
+  --color-accent-light: hsl(from var(--base-color) calc(h + 220) s calc(l + 30));
+  --color-accent-dark: hsl(from var(--base-color) calc(h + 220) s calc(l - 20));
   --color-warning: hsl(from var(--base-color) 340 calc(s + 20) 50);
   --color-cancel: hsl(from var(--base-color) h s 85%);
 }
@@ -38,8 +40,10 @@ html {
   --color-text-light: hsl(from var(--base-color) h s 80);
   --color-text-dark: hsl(from var(--base-color) h s 90);
   --color-primary-dark: hsl(from var(--base-color) h s calc(l + 20));
-  --color-primary-light: hsl(from var(--base-color) h s calc(l - 20));
+  --color-primary-light: hsl(from var(--base-color) h s calc(l - 30));
   --color-accent: hsl(from var(--base-color) calc(h + 220) s l);
+  --color-accent-light: hsl(from var(--base-color) calc(h + 220) s calc(l + 30));
+  --color-accent-dark: hsl(from var(--base-color) calc(h + 220) s calc(l - 20));
   --color-warning: hsl(from var(--base-color) 340 calc(s - 30) 50);
   --color-cancel: hsl(from var(--base-color) h s calc(l - 20));
 }
@@ -182,6 +186,13 @@ a {
   background-color: var(--color-accent);
 }
 
+.color-accent-light {
+  background-color: var(--color-accent-light);
+}
+.color-accent-dark {
+  background-color: var(--color-accent-dark);
+}
+
 .color-warning {
   background-color: var(--color-warning);
 }
@@ -295,8 +306,8 @@ a {
   font-size: 1.1em;
   font-weight: bold;
   background-color: var(--color-primary-light);
-  color: var(--color-text-dark);
-  border: none;
+  color: var(--color-primary-dark);
+  border: 3px solid var(--color-border);
   border-radius: 0.5em;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -307,7 +318,8 @@ a {
 .action-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  background-color: hsl(from var(--base-color) h s calc(l + 10));
+  background-color: var(--color-primary-dark);
+  color: var(--color-primary-light);
 }
 
 .action-button:active {
@@ -315,12 +327,13 @@ a {
 }
 
 .accent-button {
-  background-color: var(--color-accent);
-  color: var(--color-text-dark);
+  background-color: var(--color-accent-light);
+  color: var(--color-accent-dark);
 }
 
 .accent-button:hover {
-  background-color: hsl(from var(--color-accent) h s calc(l + 10));
+  background-color: var(--color-accent-dark);
+  color: var(--color-accent-light);
 }
 
 /* Modal Overlay */
@@ -354,7 +367,7 @@ a {
   padding: 0;
   z-index: 1001;
   max-width: 90vw;
-  max-height: 90vh;
+  max-height: fit-content;
   overflow: hidden;
   opacity: 0;
   visibility: hidden;
@@ -412,7 +425,7 @@ a {
 
 .modal-content {
   padding: 2em;
-  max-height: 60vh;
+  max-height: fit-content;
   overflow-y: auto;
   background-color: var(--color-bg-mid);
 }
@@ -443,25 +456,4 @@ a {
 .copy-section {
   text-align: center;
   margin-top: 2em;
-}
-
-.copy-button {
-  background-color: var(--color-accent);
-  color: var(--color-text-dark);
-  border: none;
-  padding: 0.75em 1.5em;
-  border-radius: 0.5em;
-  cursor: pointer;
-  font-size: 1em;
-  font-weight: bold;
-  transition: all 0.2s ease;
-}
-
-.copy-button:hover {
-  background-color: hsl(from var(--color-accent) h s calc(l + 10));
-  transform: translateY(-2px);
-}
-
-.copy-button:active {
-  transform: translateY(0);
 }
