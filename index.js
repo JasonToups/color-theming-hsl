@@ -80,15 +80,17 @@ document.addEventListener('DOMContentLoaded', function () {
     modalOverlay: modalOverlay,
     accentModal: accentModal,
     closeModal: closeModal,
-    copyAllButton: copyAllButton
+    copyAllButton: copyAllButton,
   });
 
   function openModal() {
     console.log('openModal called');
     console.log('modalOverlay:', modalOverlay);
     console.log('accentModal:', accentModal);
-    
+
     if (modalOverlay && accentModal) {
+      modalOverlay.style.visibility = 'visible';
+      accentModal.style.visibility = 'visible';
       modalOverlay.classList.add('active');
       accentModal.classList.add('active');
       document.body.style.overflow = 'hidden';
@@ -99,6 +101,8 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function closeModalFunc() {
+    modalOverlay.style.visibility = 'hidden';
+    accentModal.style.visibility = 'hidden';
     modalOverlay.classList.remove('active');
     accentModal.classList.remove('active');
     document.body.style.overflow = '';
@@ -122,8 +126,8 @@ ${darkModeVars}`;
     navigator.clipboard.writeText(allVars).then(() => {
       const originalText = copyAllButton.textContent;
       copyAllButton.textContent = 'Copied!';
-      copyAllButton.style.background-color = 'var(--color-warning)';
-      
+      copyAllButton.style.backgroundColor = 'var(--color-warning)';
+
       setTimeout(() => {
         copyAllButton.textContent = originalText;
         copyAllButton.style.backgroundColor = '';
@@ -137,15 +141,15 @@ ${darkModeVars}`;
   } else {
     console.error('accentVarsButton not found');
   }
-  
+
   if (closeModal) {
     closeModal.addEventListener('click', closeModalFunc);
   }
-  
+
   if (modalOverlay) {
     modalOverlay.addEventListener('click', closeModalFunc);
   }
-  
+
   if (copyAllButton) {
     copyAllButton.addEventListener('click', copyVariables);
   }
