@@ -12,17 +12,27 @@
   --base-color: hsl(var(--base-hue), var(--base-saturation), var(--base-lightness));
   /*  responsive color values  */
   --color-primary: hsl(from var(--base-color) h s l);
-  --color-secondary: hsl(from var(--base-color) h s calc(l + 20));
-  --color-tertiary: hsl(from var(--base-color) h s calc(l - 20));
-  --color-accent: hsl(from var(--base-color) calc(h + 220) s l);
-  --color-warning: hsl(from var(--base-color) 340 s l);
-  --color-cancel: hsl(from var(--base-color) h s 85%);
+  --color-secondary: hsl(from var(--color-primary) h s calc(l + 20));
+  --color-tertiary: hsl(from var(--color-primary) h s calc(l - 20));
+  --color-accent: hsl(from var(--color-primary) calc(h + 220) s l);
+  --color-warning: hsl(from var(--color-primary) 340 s l);
+  --color-cancel: hsl(from var(--color-primary) h s 85%);
+}
+
+/* Dark theme overrides */
+[data-theme='dark'] {
+  --color-primary: hsl(from var(--base-color) h s calc(l - 20));
+  --color-secondary: hsl(from var(--color-primary) h s calc(l + 5));
+  --color-tertiary: hsl(from var(--color-primary) h s calc(l - 10));
+  --color-accent: hsl(from var(--color-primary) calc(h + 220) s l);
+  --color-warning: hsl(from var(--color-primary) 340 s calc(l + 10));
+  --color-cancel: hsl(from var(--color-primary) h s calc(l - 20));
 }
 
 body {
   width: 100vw;
   height: 100vh;
-  background-color: hsl(from var(--base-color) h s 96%);
+  background-color: var(--color-cancel);
   display: grid;
   grid-auto-rows: auto 1fr auto;
   font-family: sans-serif;
@@ -161,6 +171,50 @@ a {
 
 .color-cancel {
   background-color: var(--color-cancel);
+}
+
+.toggle-switch {
+  position: relative;
+  width: 60px;
+  height: 30px;
+}
+
+.toggle-input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-label {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 30px;
+}
+
+.toggle-label:before {
+  position: absolute;
+  content: '';
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.toggle-input:checked + .toggle-label {
+  background-color: var(--base-color);
+}
+
+.toggle-input:checked + .toggle-label:before {
+  transform: translateX(30px);
 }
 
 footer {

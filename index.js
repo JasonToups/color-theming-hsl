@@ -33,4 +33,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Initialize with current values
   updateCSSVariables();
+
+  // Theme toggle functionality
+  const themeToggle = document.getElementById('theme-toggle');
+
+  function toggleTheme() {
+    const isDark = themeToggle.checked;
+    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  }
+
+  themeToggle.addEventListener('change', toggleTheme);
+
+  // Initialize theme
+  document.documentElement.setAttribute('data-theme', 'light');
 });
