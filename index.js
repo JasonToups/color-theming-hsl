@@ -89,6 +89,11 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('accentModal:', accentModal);
 
     if (modalOverlay && accentModal) {
+      // Update modal display with current slider values
+      document.getElementById('modal-hue').textContent = hueSlider.value;
+      document.getElementById('modal-saturation').textContent = saturationSlider.value;
+      document.getElementById('modal-lightness').textContent = lightnessSlider.value;
+
       modalOverlay.style.visibility = 'visible';
       accentModal.style.visibility = 'visible';
       modalOverlay.classList.add('active');
@@ -109,19 +114,45 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function copyVariables() {
-    const lightModeVars = `/* Light Mode Accent Colors */
---color-accent: hsl(from var(--base-color) calc(h + 220) s l);
---color-accent-light: hsl(from var(--base-color) calc(h + 220) s calc(l + 20));
---color-accent-dark: hsl(from var(--base-color) calc(h + 220) s calc(l - 20));`;
+    // Get current values from the sliders
+    const currentHue = hueSlider.value;
+    const currentSaturation = saturationSlider.value;
+    const currentLightness = lightnessSlider.value;
 
-    const darkModeVars = `/* Dark Mode Accent Colors */
---color-accent: hsl(from var(--base-color) calc(h + 220) s l);
---color-accent-light: hsl(from var(--base-color) calc(h + 220) s calc(l + 20));
---color-accent-dark: hsl(from var(--base-color) calc(h + 220) s calc(l - 20));`;
+    const allVars = `/* Light Mode */
+:root {
+  --base-hue: ${currentHue};
+  --base-saturation: ${currentSaturation}%;
+  --base-lightness: ${currentLightness}%;
+  --base-color: hsl(var(--base-hue), var(--base-saturation), var(--base-lightness));
+  
+  --color-bg-low: hsl(from var(--base-color) h s 90);
+  --color-bg-mid: hsl(from var(--base-color) h s 95);
+  --color-bg-high: hsl(from var(--base-color) h s 98);
+  --color-border: hsl(from var(--base-color) h s 70);
+  --color-text-light: hsl(from var(--base-color) h s 15);
+  --color-text-dark: hsl(from var(--base-color) h s 5);
+  --color-primary-dark: hsl(from var(--base-color) h s calc(l - 20));
+  --color-primary-light: hsl(from var(--base-color) h s calc(l + 20));
+  --color-accent: hsl(from var(--base-color) calc(h + 220) s l);
+  --color-warning: hsl(from var(--base-color) 340 calc(s + 20) 50);
+  --color-cancel: hsl(from var(--base-color) h s 85%);
+}
 
-    const allVars = `${lightModeVars}
-
-${darkModeVars}`;
+/* Dark Mode */
+[data-theme='dark'] {
+  --color-bg-low: hsl(from var(--base-color) h s 5);
+  --color-bg-mid: hsl(from var(--base-color) h s 10);
+  --color-bg-high: hsl(from var(--base-color) h s 15);
+  --color-border: hsl(from var(--base-color) h s 20);
+  --color-text-light: hsl(from var(--base-color) h s 80);
+  --color-text-dark: hsl(from var(--base-color) h s 90);
+  --color-primary-dark: hsl(from var(--base-color) h s calc(l + 20));
+  --color-primary-light: hsl(from var(--base-color) h s calc(l - 20));
+  --color-accent: hsl(from var(--base-color) calc(h + 220) s l);
+  --color-warning: hsl(from var(--base-color) 340 calc(s - 30) 50);
+  --color-cancel: hsl(from var(--base-color) h s calc(l - 20));
+}`;
 
     navigator.clipboard.writeText(allVars).then(() => {
       const originalText = copyAllButton.textContent;
