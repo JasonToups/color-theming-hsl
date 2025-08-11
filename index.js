@@ -66,4 +66,94 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   randomButton.addEventListener('click', randomizeColors);
+
+  // Modal functionality
+  const accentVarsButton = document.getElementById('accent-vars-button');
+  const modalOverlay = document.getElementById('modal-overlay');
+  const accentModal = document.getElementById('accent-modal');
+  const closeModal = document.getElementById('close-modal');
+  const copyAllButton = document.getElementById('copy-all');
+
+  // Debug logging
+  console.log('Modal elements found:', {
+    accentVarsButton: accentVarsButton,
+    modalOverlay: modalOverlay,
+    accentModal: accentModal,
+    closeModal: closeModal,
+    copyAllButton: copyAllButton
+  });
+
+  function openModal() {
+    console.log('openModal called');
+    console.log('modalOverlay:', modalOverlay);
+    console.log('accentModal:', accentModal);
+    
+    if (modalOverlay && accentModal) {
+      modalOverlay.classList.add('active');
+      accentModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      console.log('Modal opened successfully');
+    } else {
+      console.error('Modal elements not found');
+    }
+  }
+
+  function closeModalFunc() {
+    modalOverlay.classList.remove('active');
+    accentModal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function copyVariables() {
+    const lightModeVars = `/* Light Mode Accent Colors */
+--color-accent: hsl(from var(--base-color) calc(h + 220) s l);
+--color-accent-light: hsl(from var(--base-color) calc(h + 220) s calc(l + 20));
+--color-accent-dark: hsl(from var(--base-color) calc(h + 220) s calc(l - 20));`;
+
+    const darkModeVars = `/* Dark Mode Accent Colors */
+--color-accent: hsl(from var(--base-color) calc(h + 220) s l);
+--color-accent-light: hsl(from var(--base-color) calc(h + 220) s calc(l + 20));
+--color-accent-dark: hsl(from var(--base-color) calc(h + 220) s calc(l - 20));`;
+
+    const allVars = `${lightModeVars}
+
+${darkModeVars}`;
+
+    navigator.clipboard.writeText(allVars).then(() => {
+      const originalText = copyAllButton.textContent;
+      copyAllButton.textContent = 'Copied!';
+      copyAllButton.style.background-color = 'var(--color-warning)';
+      
+      setTimeout(() => {
+        copyAllButton.textContent = originalText;
+        copyAllButton.style.backgroundColor = '';
+      }, 2000);
+    });
+  }
+
+  if (accentVarsButton) {
+    accentVarsButton.addEventListener('click', openModal);
+    console.log('Event listener attached to accent button');
+  } else {
+    console.error('accentVarsButton not found');
+  }
+  
+  if (closeModal) {
+    closeModal.addEventListener('click', closeModalFunc);
+  }
+  
+  if (modalOverlay) {
+    modalOverlay.addEventListener('click', closeModalFunc);
+  }
+  
+  if (copyAllButton) {
+    copyAllButton.addEventListener('click', copyVariables);
+  }
+
+  // Close modal with Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && accentModal.classList.contains('active')) {
+      closeModalFunc();
+    }
+  });
 });

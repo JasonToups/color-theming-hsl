@@ -34,6 +34,11 @@
         <div class="slider-group">
           <button id="random-button" class="action-button">Random</button>
         </div>
+        <div class="slider-group">
+          <button id="accent-vars-button" class="action-button accent-button">
+            Get Color Theme
+          </button>
+        </div>
       </section>
       <section class="grid">
         <div class="card color-primary-light">
@@ -71,12 +76,43 @@
         </div>
       </section>
     </main>
+
     <footer>
       <aside>
         Lovingly crafted by
         <a href="https://jasontoups.github.io/" target="_blank">Jason Toups</a>
       </aside>
     </footer>
+
+    <!-- Modal Overlay -->
+    <div id="modal-overlay" class="modal-overlay"></div>
+
+    <!-- Modal -->
+    <div id="accent-modal" class="modal">
+      <div class="modal-header">
+        <h2>Accent Color Variables</h2>
+        <button id="close-modal" class="close-button">&times;</button>
+      </div>
+      <div class="modal-content">
+        <div class="code-section">
+          <h3>Light Mode</h3>
+          <pre class="code-block"><code>/* Light Mode Accent Colors */
+    --color-accent: hsl(from var(--base-color) calc(h + 220) s l);
+    --color-accent-light: hsl(from var(--base-color) calc(h + 220) s calc(l + 20));
+    --color-accent-dark: hsl(from var(--base-color) calc(h + 220) s calc(l - 20));</code></pre>
+        </div>
+        <div class="code-section">
+          <h3>Dark Mode</h3>
+          <pre class="code-block"><code>/* Dark Mode Accent Colors */
+    --color-accent: hsl(from var(--base-color) calc(h + 220) s l);
+    --color-accent-light: hsl(from var(--base-color) calc(h + 220) s calc(l + 20));
+    --color-accent-dark: hsl(from var(--base-color) calc(h + 220) s calc(l - 20));</code></pre>
+        </div>
+        <div class="copy-section">
+          <button id="copy-all" class="copy-button">Copy All Variables</button>
+        </div>
+      </div>
+    </div>
     <script src="index.js"></script>
   </body>
 </html>
