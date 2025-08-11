@@ -47,6 +47,8 @@ body {
   grid-auto-rows: auto 1fr auto;
   font-family: sans-serif;
   color: var(--color-text-dark);
+  container-type: inline-size;
+  container-name: body;
 }
 
 header {
@@ -54,9 +56,10 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1em 0 0;
-  color: var(--color-primary);
-  font-size: 1.75em;
+  padding: 1em 0 1.5em;
+  color: var(--color-text-light);
+  font-size: clamp(1.25em, 4vw, 1.75em);
+  text-align: center;
 }
 
 footer {
@@ -66,22 +69,33 @@ footer {
   align-items: center;
   padding: 0 0 1em;
   font-size: 1.5em;
-  color: var(--color-primary);
+  color: var(--color-text-light);
 }
 
 main {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   height: 100%;
   width: 100%;
   gap: 2em;
+  padding: 1em;
 }
 
 @container body (max-width: 800px) {
   main {
     flex-direction: column;
+    align-items: center;
+  }
+
+  .controls {
+    order: 1;
+  }
+
+  .grid {
+    order: 2;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
 }
 
@@ -94,12 +108,15 @@ a {
   display: grid;
   gap: 1em;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  width: fit-content;
+  width: 100%;
+  max-width: 100%;
   height: fit-content;
+  align-items: start;
+  flex: 1;
 }
 
 .card {
-  width: 300px;
+  width: 100%;
   height: 200px;
   border-radius: 0px 1em 1em 1em;
   border: solid 5px var(--color-border);
@@ -171,6 +188,8 @@ a {
   background-color: var(--color-bg-mid);
   border-radius: 1em;
   backdrop-filter: blur(10px);
+  min-width: 300px;
+  flex-shrink: 0;
 }
 
 .slider-group {
