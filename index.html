@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Color Theming with HSL</h1>
+    </header>
+    <main>
+      <section class="controls">
+        <div class="slider-group">
+          <label for="hue-slider">Hue: <span id="hue-value">210</span>°</label>
+          <input type="range" id="hue-slider" min="0" max="360" value="210" class="slider" />
+        </div>
+        <div class="slider-group">
+          <label for="saturation-slider">Saturation: <span id="saturation-value">100</span>%</label>
+          <input type="range" id="saturation-slider" min="0" max="100" value="100" class="slider" />
+        </div>
+        <div class="slider-group">
+          <label for="lightness-slider">Lightness: <span id="lightness-value">40</span>%</label>
+          <input type="range" id="lightness-slider" min="0" max="100" value="40" class="slider" />
+        </div>
+      </section>
+      <section class="grid">
+        <div class="card color-primary">
+          <p>primary</p>
+        </div>
+        <div class="card color-secondary">
+          <p>secondary</p>
+        </div>
+        <div class="card color-tertiary">
+          <p>tertiary</p>
+        </div>
+        <div class="card color-accent">
+          <p>accent</p>
+        </div>
+        <div class="card color-warning">
+          <p>warning</p>
+        </div>
+        <div class="card color-cancel">
+          <p>cancel</p>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <aside>
+        Lovingly crafted by
+        <a href="https://jasontoups.github.io/" target="_blank">Jason Toups</a>
+      </aside>
+    </footer>
+    <script src="index.js"></script>
+  </body>
+</html>
