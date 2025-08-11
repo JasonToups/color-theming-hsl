@@ -217,6 +217,30 @@ a {
   transform: translateX(30px);
 }
 
+.action-button {
+  padding: 0.75em 1.5em;
+  font-size: 1.1em;
+  font-weight: bold;
+  background-color: var(--base-color);
+  color: var(--color-cancel);
+  border: none;
+  border-radius: 0.5em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  min-width: 120px;
+}
+
+.action-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  background-color: hsl(from var(--base-color) h s calc(l + 10));
+}
+
+.action-button:active {
+  transform: translateY(0);
+}
+
 footer {
   height: fit-content;
   display: flex;

@@ -46,4 +46,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Initialize theme
   document.documentElement.setAttribute('data-theme', 'light');
+
+  // Random button functionality
+  const randomButton = document.getElementById('random-button');
+
+  function randomizeColors() {
+    // Generate random values
+    const randomHue = Math.floor(Math.random() * 361); // 0-360
+    const randomSaturation = Math.floor(Math.random() * 101); // 0-100
+    const randomLightness = Math.floor(Math.random() * 101); // 0-100
+
+    // Update slider values
+    hueSlider.value = randomHue;
+    saturationSlider.value = randomSaturation;
+    lightnessSlider.value = randomLightness;
+
+    // Update CSS variables and display values
+    updateCSSVariables();
+  }
+
+  randomButton.addEventListener('click', randomizeColors);
 });
