@@ -50,6 +50,8 @@ html {
   --color-cancel: hsl(from var(--base-color) h s calc(l - 20));
 }
 
+/* end of color theme variables */
+
 body {
   width: 100%;
   min-height: 100vh;
