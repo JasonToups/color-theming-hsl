@@ -67,6 +67,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
   randomButton.addEventListener('click', randomizeColors);
 
+  // Reset button functionality
+  const resetButton = document.getElementById('reset-button');
+
+  function resetToDefaults() {
+    // Reset to default values (from your CSS :root)
+    const defaultHue = 23;
+    const defaultSaturation = 100;
+    const defaultLightness = 40;
+
+    // Update slider values
+    hueSlider.value = defaultHue;
+    saturationSlider.value = defaultSaturation;
+    lightnessSlider.value = defaultLightness;
+
+    // Update CSS variables and display values
+    updateCSSVariables();
+  }
+
+  resetButton.addEventListener('click', resetToDefaults);
+
   // Modal functionality - define all modal functions first
   const accentVarsButton = document.getElementById('accent-vars-button');
   const modalOverlay = document.getElementById('modal-overlay');
