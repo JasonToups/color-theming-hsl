@@ -159,9 +159,11 @@ ${cssSection}`;
         copyAllButton.textContent = 'Copied!';
         copyAllButton.style.backgroundColor = 'var(--color-warning)';
 
+        // Wait 3 seconds, then close modal and reset button
         setTimeout(() => {
           copyAllButton.textContent = originalText;
           copyAllButton.style.backgroundColor = '';
+          closeModalFunc(); // Automatically close the modal
         }, 2000);
       });
     }
