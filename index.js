@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const lightnessValue = document.getElementById('lightness-value');
 
   // Function to update CSS custom properties
-  function updateCSSVariables() {
+  async function updateCSSVariables() {
     const hue = hueSlider.value;
     const saturation = saturationSlider.value;
     const lightness = lightnessSlider.value;
@@ -24,6 +24,11 @@ document.addEventListener('DOMContentLoaded', function () {
     hueValue.textContent = hue;
     saturationValue.textContent = saturation;
     lightnessValue.textContent = lightness;
+
+    // Update modal display if it's open
+    if (accentModal && accentModal.classList.contains('active')) {
+      await updateModalDisplay();
+    }
   }
 
   // Add event listeners to sliders
@@ -83,87 +88,88 @@ document.addEventListener('DOMContentLoaded', function () {
     copyAllButton: copyAllButton,
   });
 
-  function openModal() {
-    console.log('openModal called');
-    console.log('modalOverlay:', modalOverlay);
-    console.log('accentModal:', accentModal);
+  // Function to fetch and parse CSS file
+  async function fetchCSSVariables() {
+    try {
+      const response = await fetch('index.css');
+      const cssText = await response.text();
 
+      // Extract the section between the comments
+      const startComment = '/*  responsive color values  */';
+      const endComment = '/* end of color theme variables */';
+
+      const startIndex = cssText.indexOf(startComment);
+      const endIndex = cssText.indexOf(endComment) + endComment.length;
+
+      if (startIndex !== -1 && endIndex !== -1) {
+        const cssSection = cssText.substring(startIndex, endIndex);
+        return cssSection;
+      } else {
+        console.error('CSS comments not found');
+        return null;
+      }
+    } catch (error) {
+      console.error('Error fetching CSS:', error);
+      return null;
+    }
+  }
+
+  // Function to update modal display
+  async function updateModalDisplay() {
+    const cssSection = await fetchCSSVariables();
+    if (!cssSection) return;
+
+    // Get current values from the sliders
+    const currentHue = hueSlider.value;
+    const currentSaturation = saturationSlider.value;
+    const currentLightness = lightnessSlider.value;
+
+    // Construct the complete CSS
+    const cssCode = `/* Light Mode */
+:root {
+  /* adjust these three values to update all of the colors in the theme   */
+  --base-hue: ${currentHue};
+  --base-saturation: ${currentSaturation}%;
+  --base-lightness: ${currentLightness}%;
+  --base-color: hsl(var(--base-hue), var(--base-saturation), var(--base-lightness));
+${cssSection}`;
+
+    // Update the modal code block
+    const codeElement = document.getElementById('dynamic-css-code');
+    if (codeElement) {
+      codeElement.textContent = cssCode;
+    }
+  }
+
+  // Function to open modal
+  async function openModal() {
     if (modalOverlay && accentModal) {
-      // Update modal display with current slider values
-      document.getElementById('modal-hue').textContent = hueSlider.value;
-      document.getElementById('modal-saturation').textContent = saturationSlider.value;
-      document.getElementById('modal-lightness').textContent = lightnessSlider.value;
+      await updateModalDisplay(); // This populates the code block
 
       modalOverlay.style.visibility = 'visible';
       accentModal.style.visibility = 'visible';
       modalOverlay.classList.add('active');
       accentModal.classList.add('active');
       document.body.style.overflow = 'hidden';
-      console.log('Modal opened successfully');
-    } else {
-      console.error('Modal elements not found');
     }
   }
 
-  function closeModalFunc() {
-    modalOverlay.style.visibility = 'hidden';
-    accentModal.style.visibility = 'hidden';
-    modalOverlay.classList.remove('active');
-    accentModal.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-
+  // Function to copy variables (copies what's in the code block)
   function copyVariables() {
-    // Get current values from the sliders
-    const currentHue = hueSlider.value;
-    const currentSaturation = saturationSlider.value;
-    const currentLightness = lightnessSlider.value;
+    const codeElement = document.getElementById('dynamic-css-code');
+    if (codeElement) {
+      const cssText = codeElement.textContent;
+      navigator.clipboard.writeText(cssText).then(() => {
+        const originalText = copyAllButton.textContent;
+        copyAllButton.textContent = 'Copied!';
+        copyAllButton.style.backgroundColor = 'var(--color-warning)';
 
-    const allVars = `/* Light Mode */
-:root {
-  --base-hue: ${currentHue};
-  --base-saturation: ${currentSaturation}%;
-  --base-lightness: ${currentLightness}%;
-  --base-color: hsl(var(--base-hue), var(--base-saturation), var(--base-lightness));
-  
-  --color-bg-low: hsl(from var(--base-color) h s 90);
-  --color-bg-mid: hsl(from var(--base-color) h s 95);
-  --color-bg-high: hsl(from var(--base-color) h s 98);
-  --color-border: hsl(from var(--base-color) h s 70);
-  --color-text-light: hsl(from var(--base-color) h s 15);
-  --color-text-dark: hsl(from var(--base-color) h s 5);
-  --color-primary-dark: hsl(from var(--base-color) h s calc(l - 20));
-  --color-primary-light: hsl(from var(--base-color) h s calc(l + 20));
-  --color-accent: hsl(from var(--base-color) calc(h + 220) s l);
-  --color-warning: hsl(from var(--base-color) 340 calc(s + 20) 50);
-  --color-cancel: hsl(from var(--base-color) h s 85%);
-}
-
-/* Dark Mode */
-[data-theme='dark'] {
-  --color-bg-low: hsl(from var(--base-color) h s 5);
-  --color-bg-mid: hsl(from var(--base-color) h s 10);
-  --color-bg-high: hsl(from var(--base-color) h s 15);
-  --color-border: hsl(from var(--base-color) h s 20);
-  --color-text-light: hsl(from var(--base-color) h s 80);
-  --color-text-dark: hsl(from var(--base-color) h s 90);
-  --color-primary-dark: hsl(from var(--base-color) h s calc(l + 20));
-  --color-primary-light: hsl(from var(--base-color) h s calc(l - 20));
-  --color-accent: hsl(from var(--base-color) calc(h + 220) s l);
-  --color-warning: hsl(from var(--base-color) 340 calc(s - 30) 50);
-  --color-cancel: hsl(from var(--base-color) h s calc(l - 20));
-}`;
-
-    navigator.clipboard.writeText(allVars).then(() => {
-      const originalText = copyAllButton.textContent;
-      copyAllButton.textContent = 'Copied!';
-      copyAllButton.style.backgroundColor = 'var(--color-warning)';
-
-      setTimeout(() => {
-        copyAllButton.textContent = originalText;
-        copyAllButton.style.backgroundColor = '';
-      }, 2000);
-    });
+        setTimeout(() => {
+          copyAllButton.textContent = originalText;
+          copyAllButton.style.backgroundColor = '';
+        }, 2000);
+      });
+    }
   }
 
   if (accentVarsButton) {
