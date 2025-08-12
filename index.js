@@ -9,17 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const saturationValue = document.getElementById('saturation-value');
   const lightnessValue = document.getElementById('lightness-value');
 
-  // Function to close modal
-  function closeModalFunc() {
-    modalOverlay.style.visibility = 'hidden';
-    accentModal.style.visibility = 'hidden';
-    modalOverlay.classList.remove('active');
-    accentModal.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-
   // Function to update CSS custom properties
-  async function updateCSSVariables() {
+  function updateCSSVariables() {
     const hue = hueSlider.value;
     const saturation = saturationSlider.value;
     const lightness = lightnessSlider.value;
@@ -33,15 +24,6 @@ document.addEventListener('DOMContentLoaded', function () {
     hueValue.textContent = hue;
     saturationValue.textContent = saturation;
     lightnessValue.textContent = lightness;
-
-    // Update modal display if it's open (but only after accentModal is defined)
-    if (
-      typeof accentModal !== 'undefined' &&
-      accentModal &&
-      accentModal.classList.contains('active')
-    ) {
-      await updateModalDisplay();
-    }
   }
 
   // Add event listeners to sliders
@@ -85,21 +67,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
   randomButton.addEventListener('click', randomizeColors);
 
-  // Modal functionality
+  // Modal functionality - define all modal functions first
   const accentVarsButton = document.getElementById('accent-vars-button');
   const modalOverlay = document.getElementById('modal-overlay');
   const accentModal = document.getElementById('accent-modal');
   const closeModal = document.getElementById('close-modal');
   const copyAllButton = document.getElementById('copy-all');
 
-  // Debug logging
-  console.log('Modal elements found:', {
-    accentVarsButton: accentVarsButton,
-    modalOverlay: modalOverlay,
-    accentModal: accentModal,
-    closeModal: closeModal,
-    copyAllButton: copyAllButton,
-  });
+  // Function to close modal
+  function closeModalFunc() {
+    modalOverlay.style.visibility = 'hidden';
+    accentModal.style.visibility = 'hidden';
+    modalOverlay.classList.remove('active');
+    accentModal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
 
   // Function to fetch and parse CSS file
   async function fetchCSSVariables() {
@@ -184,6 +166,15 @@ ${cssSection}`;
       });
     }
   }
+
+  // Debug logging
+  console.log('Modal elements found:', {
+    accentVarsButton: accentVarsButton,
+    modalOverlay: modalOverlay,
+    accentModal: accentModal,
+    closeModal: closeModal,
+    copyAllButton: copyAllButton,
+  });
 
   if (accentVarsButton) {
     accentVarsButton.addEventListener('click', openModal);
