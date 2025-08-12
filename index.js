@@ -9,6 +9,15 @@ document.addEventListener('DOMContentLoaded', function () {
   const saturationValue = document.getElementById('saturation-value');
   const lightnessValue = document.getElementById('lightness-value');
 
+  // Function to close modal
+  function closeModalFunc() {
+    modalOverlay.style.visibility = 'hidden';
+    accentModal.style.visibility = 'hidden';
+    modalOverlay.classList.remove('active');
+    accentModal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
   // Function to update CSS custom properties
   async function updateCSSVariables() {
     const hue = hueSlider.value;
@@ -25,8 +34,12 @@ document.addEventListener('DOMContentLoaded', function () {
     saturationValue.textContent = saturation;
     lightnessValue.textContent = lightness;
 
-    // Update modal display if it's open
-    if (accentModal && accentModal.classList.contains('active')) {
+    // Update modal display if it's open (but only after accentModal is defined)
+    if (
+      typeof accentModal !== 'undefined' &&
+      accentModal &&
+      accentModal.classList.contains('active')
+    ) {
       await updateModalDisplay();
     }
   }
