@@ -12,7 +12,7 @@ html {
 
 :root {
   /* adjust these three values to update all of the colors in the theme   */
-  --base-hue: 210;
+  --base-hue: 23;
   --base-saturation: 100%;
   --base-lightness: 40%;
   --base-color: hsl(var(--base-hue), var(--base-saturation), var(--base-lightness));

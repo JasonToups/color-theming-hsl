@@ -158,6 +158,7 @@ ${cssSection}`;
         const originalText = copyAllButton.textContent;
         copyAllButton.textContent = 'Copied!';
         copyAllButton.style.backgroundColor = 'var(--color-warning)';
+        copyAllButton.style.color = 'var(--color-bg-high)';
 
         // Wait 3 seconds, then close modal and reset button
         setTimeout(() => {
