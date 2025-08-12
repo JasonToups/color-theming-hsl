@@ -342,14 +342,14 @@ a {
   transform: translateY(0);
 }
 
-.cancel-button {
-  background-color: var(--color-cancel);
-  color: var(--color-text-light);
-}
-
 .accent-button {
   background-color: var(--color-accent-light);
   color: var(--color-accent-dark);
+}
+
+.cancel-button {
+  background-color: var(--color-cancel);
+  color: var(--color-text-light);
 }
 
 .accent-button:hover {

@@ -103,36 +103,54 @@ document.addEventListener('DOMContentLoaded', function () {
     document.body.style.overflow = '';
   }
 
-  // Function to fetch and parse CSS file
-  async function fetchCSSVariables() {
-    try {
-      const response = await fetch('index.css');
-      const cssText = await response.text();
+  // Function to get CSS variables (hardcoded for CodePen)
+  function getCSSVariables() {
+    // Hardcoded CSS variables section for CodePen
+    return `  /* adjust these three values to update all of the colors in the theme   */
+  --base-hue: 23;
+  --base-saturation: 100%;
+  --base-lightness: 40%;
+  --base-color: hsl(var(--base-hue), var(--base-saturation), var(--base-lightness));
+  /*  responsive color values  */
+  --color-bg-low: hsl(from var(--base-color) h s 90);
+  --color-bg-mid: hsl(from var(--base-color) h s 95);
+  --color-bg-high: hsl(from var(--base-color) h s 98);
+  --color-border: hsl(from var(--base-color) h s 70);
+  --color-text-light: hsl(from var(--base-color) h s 45);
+  --color-text-dark: hsl(from var(--base-color) h s 5);
+  --color-primary: var(--base-color);
+  --color-primary-dark: hsl(from var(--base-color) h s calc(l - 20));
+  --color-primary-light: hsl(from var(--base-color) h s calc(l + 30));
+  --color-accent: hsl(from var(--base-color) calc(h + 220) s l);
+  --color-accent-light: hsl(from var(--base-color) calc(h + 220) s calc(l + 30));
+  --color-accent-dark: hsl(from var(--base-color) calc(h + 220) s calc(l - 30));
+  --color-warning: hsl(from var(--base-color) 340 calc(s + 20) 50);
+  --color-cancel: hsl(from var(--color-primary-light) h s calc(l + 10));
+}
 
-      // Extract the section between the comments
-      const startComment = '/*  responsive color values  */';
-      const endComment = '/* end of color theme variables */';
+/* Dark theme overrides */
+[data-theme='dark'] {
+  --color-bg-low: hsl(from var(--base-color) h 100 5);
+  --color-bg-mid: hsl(from var(--base-color) h s 10);
+  --color-bg-high: hsl(from var(--base-color) h s 15);
+  --color-border: hsl(from var(--base-color) h s 20);
+  --color-text-light: hsl(from var(--base-color) h s 80);
+  --color-text-dark: hsl(from var(--base-color) h s 90);
+  --color-primary-dark: hsl(from var(--base-color) h s calc(l + 20));
+  --color-primary-light: hsl(from var(--base-color) h s calc(l - 30));
+  --color-accent: hsl(from var(--base-color) calc(h + 220) s l);
+  --color-accent-light: hsl(from var(--base-color) calc(h + 220) s calc(l - 30));
+  --color-accent-dark: hsl(from var(--base-color) calc(h + 220) s calc(l + 20));
+  --color-warning: hsl(from var(--base-color) 340 calc(s - 30) 50);
+  --color-cancel: hsl(from var(--color-primary-light) h s calc(l - 10));
+}
 
-      const startIndex = cssText.indexOf(startComment);
-      const endIndex = cssText.indexOf(endComment) + endComment.length;
-
-      if (startIndex !== -1 && endIndex !== -1) {
-        const cssSection = cssText.substring(startIndex, endIndex);
-        return cssSection;
-      } else {
-        console.error('CSS comments not found');
-        return null;
-      }
-    } catch (error) {
-      console.error('Error fetching CSS:', error);
-      return null;
-    }
+/* end of color theme variables */`;
   }
 
   // Function to update modal display
-  async function updateModalDisplay() {
-    const cssSection = await fetchCSSVariables();
-    if (!cssSection) return;
+  function updateModalDisplay() {
+    const cssSection = getCSSVariables();
 
     // Get current values from the sliders
     const currentHue = hueSlider.value;
@@ -157,9 +175,9 @@ ${cssSection}`;
   }
 
   // Function to open modal
-  async function openModal() {
+  function openModal() {
     if (modalOverlay && accentModal) {
-      await updateModalDisplay(); // This populates the code block
+      updateModalDisplay(); // This populates the code block
 
       modalOverlay.style.visibility = 'visible';
       accentModal.style.visibility = 'visible';
